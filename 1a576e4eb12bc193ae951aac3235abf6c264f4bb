@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fba634bb_51394198",
+        "filename": "templates/template-manual-test.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1014268
+      },
+      "writtenOn": "2018-05-23T14:18:06Z",
+      "side": 1,
+      "message": "I guess this means that the tester will update this and make a commit to the repo after running the test.\n\nJust as a sidenote, at EPG we thought of having test reporting/test analysis in the repo at an early stage in the T-Reqs work, but decided against it since \n\n1) we analyze hundreds of tests per day, and it would result in a crowded git log. \n\n2) it is faster for the tester to use a purpose-built website for this with a few buttons than for the tester to write text manually\n\n3) we already had a database for storing test results from automatically run tests, so it made sense to extend that to encompass manually entered results as well.\n\nHowever, this demo is not about effective test analysis so this is probably not so relevant, just perhaps good to know that this is not how we do it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "1a576e4eb12bc193ae951aac3235abf6c264f4bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
