@@ -22,6 +22,30 @@
       "revId": "1a576e4eb12bc193ae951aac3235abf6c264f4bb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9261079b_40e7052f",
+        "filename": "templates/template-manual-test.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1014260
+      },
+      "writtenOn": "2018-05-24T08:36:21Z",
+      "side": 1,
+      "message": "Yes, I agree. Let\u0027s keep it like this for now and adjust it later. For showing a complete scenario, one would otherwise likely need such a dedicated webpage for reporting. Let\u0027s keep it simple.",
+      "parentUuid": "fba634bb_51394198",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "1a576e4eb12bc193ae951aac3235abf6c264f4bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
