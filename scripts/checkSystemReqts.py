@@ -8,17 +8,17 @@ def processRequirementsLine(line):
 	"This process a single line in a requirements file, extracting duplicate IDs, missing US traces, and a list of all traces to US."
 
 	# Extracts the actual requirement tag if there is one. Note that this requires the tag to be in a single line.
-	m = re.search('<requirement .*?>', line)
+	m = re.search('\[requirement .*?\]', line)
 	if m:
-		# print 'New requirement:'
+		# print('New requirement:')
 		reqtag = m.group(0)
-		# print reqtag
+		# print(reqtag)
 
 		# Extract the id attribute from within the requirement tag. Only requirements with id are processed.
-		id = re.search('(?<=id=).*?(?=[ >])', reqtag)
+		id = re.search('(?<=id=).*?(?=[ \]])', reqtag)
 		if id:
 			id = id.group(0)
-		# print id
+		# print(id)
 
 		# Find duplicate ids. Note that currently, duplicate ids are still processed further.
 		if id in reqIDSet:
@@ -28,7 +28,8 @@ def processRequirementsLine(line):
 			reqIDSet.add(id)
 
 		# Find all issue attributes. Supports also multiple issue attributes in theory.
-		stories = re.findall('(?<=issue=).*?(?=[ >])', reqtag)
+		stories = re.findall('(?<=issue=).*?(?=[ \]])', reqtag)
+		# print(stories)
 
 		# Find requirements without traces
 		if len(stories) == 0:
@@ -61,8 +62,8 @@ for opt, arg in opts:
 		dir = os.path.normpath(arg)
 	elif opt in ("-r"):
 		recursive = True
-# print 'Directory is', dir
-# print 'Recursive is', recursive
+# print('Directory is', dir)
+# print('Recursive is', recursive)
 
 # Sets for all ids
 storySet = set()
@@ -73,8 +74,8 @@ duplicateIDSet = set()
 # recursive traversion of root directory
 if recursive:
 	for root, directories, filenames in os.walk(dir):
-		#	for directory in directories:
-		#		print os.path.join(root, directory)
+		# for directory in directories:
+		# 	print os.path.join(root, directory)
 
 		for filename in filenames:
 			entry = os.path.join(root, filename)
