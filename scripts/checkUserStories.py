@@ -7,7 +7,7 @@ def processStoryLine( line ):
 	"This process a single line in a user story file, extracting duplicate IDs and a list of all US ids."
 
 	#Extracts the actual user story tag if there is one. Note that this requires the tag to be in a single line.
-	m = re.search('\[us .*?\]', line)
+	m = re.search('\[userstory .*?\]', line)
 	if m:
 		print ('New Story:')
 		reqtag = m.group(0)
@@ -58,19 +58,17 @@ if recursive:
 		#		print os.path.join(root, directory)
 
 		for filename in filenames:
-			entry=os.path.join(root,filename)
-
-			#Only files ending on user-stories.md are scanned
-			pattern = "*user-stories.md"
-			if fnmatch.fnmatch(entry, pattern):
-				with open(entry, "r") as file:
+			#Only markdown files starting with US are scanned
+			pattern = "US_*.md"
+			if fnmatch.fnmatch(filename, pattern):
+				with open(os.path.join(root,filename), "r") as file:
 					for line in file:
 						processStoryLine(line)
 else:
 	listOfFiles = os.listdir(dir)
 
-	#Only files ending on user-stories.md are scanned
-	pattern = "*user-stories.md"
+	#Only markdown files starting with US are scanned
+	pattern = "US_*.md"
 	for entry in listOfFiles:
 		if fnmatch.fnmatch(entry, pattern):
 			with open(os.path.join(dir,entry), "r") as file:

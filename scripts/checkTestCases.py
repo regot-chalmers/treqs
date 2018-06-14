@@ -7,7 +7,7 @@ def processTestCaseLine( line ):
 	"This process a single line in a test case file, extracting duplicate IDs, missing traces, and a list of all traces to US and requirements."
 
 	#Extracts the actual test case tag if there is one. Note that this requires the tag to be in a single line.
-	m = re.search('\[tc .*?\]', line)
+	m = re.search('\[testcase .*?\]', line)
 	if m:
 		print ('New Test Case:')
 		reqtag = m.group(0)
@@ -91,20 +91,21 @@ if recursive:
 		#	for directory in directories:
 		#		print os.path.join(root, directory)
 		for filename in filenames:
-			entry=os.path.join(root,filename)
 			#Only files ending on sys-reqts.md are scanned
-			pattern = "*test*.py"
-			if fnmatch.fnmatch(entry, pattern):
-				with open(entry, "r") as file:
+			patternA = "TC_*.md"
+			patternB = "TC_*.py"
+			if fnmatch.fnmatch(filename, patternA) or fnmatch.fnmatch(filename, patternB):
+				with open(os.path.join(root,filename), "r") as file:
 					for line in file:
 						processTestCaseLine(line)
 else:
 	listOfFiles = os.listdir(dir)
 
-	#Only files ending on sys-reqts.md are scanned
-	pattern = "*test*.py" 
+	#Only python or markdown files starting with TC are scanned
+	patternA = "TC_*.md"
+	patternB = "TC_*.py"
 	for entry in listOfFiles:
-		if fnmatch.fnmatch(entry, pattern):
+		if fnmatch.fnmatch(entry, patternA) or fnmatch.fnmatch(entry, patternB):
 			with open(os.path.join(dir,entry), "r") as file:
 				for line in file:
 					processTestCaseLine(line)
@@ -115,6 +116,10 @@ for currentStory in storySet:
 	print (currentStory)
 print ('')
 
+print ('All requirement traces:')
+for currentReq in reqSet:
+	print (currentReq)
+print ('')
 
 print ('Test cases without traces to stories:')
 for currentID in noUSTracingSet:
