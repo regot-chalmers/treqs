@@ -5,14 +5,14 @@ import getopt, os, fnmatch, re, sys
 #NOTE: Not self-contained/effect-free. It uses and mutates the sets in which ids are stored (storySet,duplicateStorySet)
 def processStoryLine( line ):
 	"This process a single line in a user story file, extracting duplicate IDs and a list of all US ids."
-        
+
 	#Extracts the actual user story tag if there is one. Note that this requires the tag to be in a single line.
 	m = re.search('\[us .*?\]', line)
 	if m:
 		print ('New Story:')
 		reqtag = m.group(0)
 		print (reqtag)
-                
+
 		#Extract the id attribute from within the user story tag. Only user stories with id are processed.
 		id = re.search('(?<=id=).*?(?=[ \]])', reqtag)
 		if id:
@@ -45,7 +45,7 @@ for opt, arg in opts:
 	elif opt in ("-r"):
 		recursive = True
 #print 'Directory is', dir
-#print 'Recursive is', recursive 
+#print 'Recursive is', recursive
 
 #Sets for all ids
 storySet = set()
@@ -55,23 +55,23 @@ duplicateStorySet = set()
 if recursive:
 	for root, directories, filenames in os.walk(dir):
 		#	for directory in directories:
-		#		print os.path.join(root, directory) 
+		#		print os.path.join(root, directory)
 
-		for filename in filenames: 
-			entry=os.path.join(root,filename) 
-			
+		for filename in filenames:
+			entry=os.path.join(root,filename)
+
 			#Only files ending on user-stories.md are scanned
-			pattern = "*user-stories.md"  
+			pattern = "*user-stories.md"
 			if fnmatch.fnmatch(entry, pattern):
 				with open(entry, "r") as file:
-					for line in file: 
+					for line in file:
 						processStoryLine(line)
 else:
 	listOfFiles = os.listdir(dir)
-	
+
 	#Only files ending on user-stories.md are scanned
-	pattern = "*user-stories.md"  
-	for entry in listOfFiles:	
+	pattern = "*user-stories.md"
+	for entry in listOfFiles:
 		if fnmatch.fnmatch(entry, pattern):
 			with open(os.path.join(dir,entry), "r") as file:
 				for line in file:

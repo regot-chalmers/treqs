@@ -5,20 +5,20 @@ import getopt, os, fnmatch, re, sys
 #NOTE: Not self-contained/effect-free. It uses and mutates the sets in which ids are stored (storySet,noUSTracingSet,reqSet,noReqTracingSet,testIDSet,duplicateIDSet)
 def processTestCaseLine( line ):
 	"This process a single line in a test case file, extracting duplicate IDs, missing traces, and a list of all traces to US and requirements."
-	    
+
 	#Extracts the actual test case tag if there is one. Note that this requires the tag to be in a single line.
 	m = re.search('\[tc .*?\]', line)
 	if m:
 		print ('New Test Case:')
 		reqtag = m.group(0)
 		print (reqtag)
-                
+
 		#Extract the id attribute from within the test case tag. Only test cases with id are processed.
 		id = re.search('(?<=id=).*?(?=[ \]])', reqtag)
 		if id:
 			id = id.group(0)
 			print (id)
-			
+
 			#Find duplicate ids. Note that currently, duplicate ids are still processed further.
 			if id in testIDSet:
 				print ('Duplicate TC id:',id)
@@ -40,7 +40,7 @@ def processTestCaseLine( line ):
 					for currentStory in splitstories:
 						print (currentStory)
 						storySet.add(currentStory)
-			
+
 			#Find all req attributes.
 			reqs = re.findall('(?<=req=).*?(?=[ \]])', reqtag)
 
@@ -75,7 +75,7 @@ for opt, arg in opts:
 	elif opt in ("-r"):
 		recursive = True
 #print 'Directory is', dir
-#print 'Recursive is', recursive 
+#print 'Recursive is', recursive
 
 #Sets for all ids
 storySet = set()
@@ -89,26 +89,26 @@ noReqTracingSet = set()
 if recursive:
 	for root, directories, filenames in os.walk(dir):
 		#	for directory in directories:
-		#		print os.path.join(root, directory) 
-		for filename in filenames: 
-			entry=os.path.join(root,filename) 
+		#		print os.path.join(root, directory)
+		for filename in filenames:
+			entry=os.path.join(root,filename)
 			#Only files ending on sys-reqts.md are scanned
-			pattern = "*test*.py"  
+			pattern = "*test*.py"
 			if fnmatch.fnmatch(entry, pattern):
 				with open(entry, "r") as file:
-					for line in file: 
+					for line in file:
 						processTestCaseLine(line)
 else:
 	listOfFiles = os.listdir(dir)
-	
+
 	#Only files ending on sys-reqts.md are scanned
-	pattern = "*test*.py"  
-	for entry in listOfFiles:	
+	pattern = "*test*.py" 
+	for entry in listOfFiles:
 		if fnmatch.fnmatch(entry, pattern):
 			with open(os.path.join(dir,entry), "r") as file:
 				for line in file:
 					processTestCaseLine(line)
-					
+
 #Simple printouts of all relevant sets.
 print ('All story traces:')
 for currentStory in storySet:
