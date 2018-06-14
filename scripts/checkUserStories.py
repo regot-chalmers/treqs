@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import getopt, os, fnmatch, re, sys
+import getopt, os, fnmatch, re, sys, datetime
 
 #function defs
 #NOTE: Not self-contained/effect-free. It uses and mutates the sets in which ids are stored (storySet,duplicateStorySet)
@@ -9,23 +9,23 @@ def processStoryLine( line ):
 	#Extracts the actual user story tag if there is one. Note that this requires the tag to be in a single line.
 	m = re.search('\[userstory .*?\]', line)
 	if m:
-		print ('New Story:')
+		log.write('New Story:\n')
 		reqtag = m.group(0)
-		print (reqtag)
+		log.write(reqtag+'\n')
 
 		#Extract the id attribute from within the user story tag. Only user stories with id are processed.
 		id = re.search('(?<=id=).*?(?=[ \]])', reqtag)
 		if id:
 			id = id.group(0)
-			print (id)
+			log.write(id+'\n')
 
 			#Find duplicate ids. Note that currently, duplicate ids are still processed further.
 			if id in storySet:
-				print ('Duplicate story id:',id)
+				log.write('Duplicate story id:'+id+'\n')
 				duplicateStorySet.add(id)
 			else:
 				storySet.add(id)
-		print ''
+		log.write('\n')
 	return
 
 #MAIN
@@ -37,16 +37,17 @@ recursive=False
 try:
 	opts, args = getopt.getopt(sys.argv[1:],"hd:r",["dir="])
 except getopt.GetoptError:
-	print ('Usage: ',sys.argv[0],' -d <directory> -r')
+	print('Usage: ',sys.argv[0],' -d <directory> -r')
 	sys.exit(2)
 for opt, arg in opts:
 	if opt in ("-d", "--dir"):
 		dir = os.path.normpath(arg)
 	elif opt in ("-r"):
 		recursive = True
-#print 'Directory is', dir
-#print 'Recursive is', recursive
+#log.write 'Directory is', dir
+#log.write 'Recursive is', recursive
 
+log = open('logs/US_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 #Sets for all ids
 storySet = set()
 duplicateStorySet = set()
@@ -55,7 +56,7 @@ duplicateStorySet = set()
 if recursive:
 	for root, directories, filenames in os.walk(dir):
 		#	for directory in directories:
-		#		print os.path.join(root, directory)
+		#		log.write os.path.join(root, directory)
 
 		for filename in filenames:
 			#Only markdown files starting with US are scanned
@@ -75,12 +76,14 @@ else:
 				for line in file:
 					processStoryLine(line)
 
-#Simple printouts of all relevant sets.
-print ('All stories:')
+#Simple log.writeouts of all relevant sets.
+log.write('All stories:\n')
 for currentStory in storySet:
-	print (currentStory)
-print ('')
+	log.write(currentStory+'\n')
+log.write('\n')
 
-print ('Duplicate story IDs:')
+log.write('Duplicate story IDs:\n')
 for currentID in duplicateStorySet:
-	print (currentID)
+	log.write(currentID+'\n')
+	
+log.close()

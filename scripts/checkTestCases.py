@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import getopt, os, fnmatch, re, sys
+import getopt, os, fnmatch, re, sys, datetime
 
 #function defs
 #NOTE: Not self-contained/effect-free. It uses and mutates the sets in which ids are stored (storySet,noUSTracingSet,reqSet,noReqTracingSet,testIDSet,duplicateIDSet)
@@ -9,19 +9,19 @@ def processTestCaseLine( line ):
 	#Extracts the actual test case tag if there is one. Note that this requires the tag to be in a single line.
 	m = re.search('\[testcase .*?\]', line)
 	if m:
-		print ('New Test Case:')
+		log.write('New Test Case:\n')
 		reqtag = m.group(0)
-		print (reqtag)
+		log.write(reqtag+'\n')
 
 		#Extract the id attribute from within the test case tag. Only test cases with id are processed.
 		id = re.search('(?<=id=).*?(?=[ \]])', reqtag)
 		if id:
 			id = id.group(0)
-			print (id)
+			log.write(id+'\n')
 
 			#Find duplicate ids. Note that currently, duplicate ids are still processed further.
 			if id in testIDSet:
-				print ('Duplicate TC id:',id)
+				log.write('Duplicate TC id:'+id+'\n')
 				duplicateIDSet.add(id)
 			else:
 				testIDSet.add(id)
@@ -31,14 +31,14 @@ def processTestCaseLine( line ):
 
 			#Find test cases without user story traces
 			if len(stories)==0:
-				print ('Warning: Test is not traced to a user story!')
+				log.write('Warning: Test is not traced to a user story!\n')
 				noUSTracingSet.add(id)
 			else:
 				for currentUS in stories:
 					#Support potential commas in an issue attribute
 					splitstories = re.split(',', currentUS)
 					for currentStory in splitstories:
-						print (currentStory)
+						log.write(currentStory+'\n')
 						storySet.add(currentStory)
 
 			#Find all req attributes.
@@ -46,16 +46,16 @@ def processTestCaseLine( line ):
 
 			#Find test cases without requirement traces
 			if len(reqs)==0:
-				print ('Warning: Test is not traced to a requirement!')
+				log.write('Warning: Test is not traced to a requirement!\n')
 				noReqTracingSet.add(id)
 			else:
 				for currentReq in reqs:
 					#Support potential commas in an req attribute
 					splitreqs = re.split(',', currentReq)
 					for currentReq in splitreqs:
-						print (currentReq)
+						log.write(currentReq)
 						reqSet.add(currentReq)
-		print ('')
+		log.write('\n')
 	return
 
 #MAIN
@@ -67,16 +67,17 @@ recursive=False
 try:
 	opts, args = getopt.getopt(sys.argv[1:],"hd:r",["dir="])
 except getopt.GetoptError:
-	print ('Usage: '+sys.argv[0]+' -d <directory> -r')
+	print('Usage: '+sys.argv[0]+' -d <directory> -r')
 	sys.exit(2)
 for opt, arg in opts:
 	if opt in ("-d", "--dir"):
 		dir = os.path.normpath(arg)
 	elif opt in ("-r"):
 		recursive = True
-#print 'Directory is', dir
-#print 'Recursive is', recursive
+#log.write 'Directory is', dir
+#log.write 'Recursive is', recursive
 
+log = open('logs/TC_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 #Sets for all ids
 storySet = set()
 noUSTracingSet = set()
@@ -89,7 +90,7 @@ noReqTracingSet = set()
 if recursive:
 	for root, directories, filenames in os.walk(dir):
 		#	for directory in directories:
-		#		print os.path.join(root, directory)
+		#		log.write os.path.join(root, directory)
 		for filename in filenames:
 			#Only files ending on sys-reqts.md are scanned
 			patternA = "TC_*.md"
@@ -108,29 +109,31 @@ else:
 		if fnmatch.fnmatch(entry, patternA) or fnmatch.fnmatch(entry, patternB):
 			with open(os.path.join(dir,entry), "r") as file:
 				for line in file:
-					processTestCaseLine(line)
+					processTestCaseLine(line )
 
-#Simple printouts of all relevant sets.
-print ('All story traces:')
+#Simple log.writeouts of all relevant sets.
+log.write('All story traces:\n')
 for currentStory in storySet:
-	print (currentStory)
-print ('')
+	log.write(currentStory+'\n')
+log.write('\n')
 
-print ('All requirement traces:')
+log.write('All requirement traces:\n')
 for currentReq in reqSet:
-	print (currentReq)
-print ('')
+	log.write(currentReq+'\n')
+log.write('\n')
 
-print ('Test cases without traces to stories:')
+log.write('Test cases without traces to stories:\n')
 for currentID in noUSTracingSet:
-	print (currentID)
-print ('')
+	log.write(currentID+'\n')
+log.write('\n')
 
-print ('Test cases without traces to requirements:')
+log.write('Test cases without traces to requirements:\n')
 for currentID in noReqTracingSet:
-	print (currentID)
-print ('')
+	log.write(currentID+'\n')
+log.write('\n')
 
-print ('Duplicate test IDs:')
+log.write('Duplicate test IDs:\n')
 for currentID in duplicateIDSet:
-	print (currentID)
+	log.write(currentID+'\n')
+	
+log.close() 

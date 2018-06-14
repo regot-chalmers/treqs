@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import getopt, os, fnmatch, re, sys
+import getopt, os, fnmatch, re, sys, datetime
 
 
 # function defs
@@ -10,39 +10,39 @@ def processRequirementsLine(line):
 	# Extracts the actual requirement tag if there is one. Note that this requires the tag to be in a single line.
 	m = re.search('\[requirement .*?\]', line)
 	if m:
-		# print('New requirement:')
+		# log.write('New requirement:')
 		reqtag = m.group(0)
-		# print(reqtag)
+		# log.write(reqtag)
 
 		# Extract the id attribute from within the requirement tag. Only requirements with id are processed.
 		id = re.search('(?<=id=).*?(?=[ \]])', reqtag)
 		if id:
 			id = id.group(0)
-		# print(id)
+		# log.write(id)
 
 		# Find duplicate ids. Note that currently, duplicate ids are still processed further.
 		if id in reqIDSet:
-			print('Duplicate requirement id:', id)
+			log.write('Duplicate requirement id:'+id+'\n')
 			duplicateIDSet.add(id)
 		else:
 			reqIDSet.add(id)
 
 		# Find all issue attributes. Supports also multiple issue attributes in theory.
-		stories = re.findall('(?<=issue=).*?(?=[ \]])', reqtag)
-		# print(stories)
+		stories = re.findall('(?<=story=).*?(?=[ \]])', reqtag)
+		# log.write(stories)
 
 		# Find requirements without traces
 		if len(stories) == 0:
-			print('Warning: Requirement is not traced to a user story!')
+			log.write('Warning: Requirement is not traced to a user story!\n')
 			noUSTracingSet.add(id)
 		else:
 			for currentUS in stories:
 				# Support potential commas in an issue attribute
 				splitstories = re.split(',', currentUS)
 				for currentStory in splitstories:
-					print(currentStory)
+					log.write(currentStory+'\n')
 					storySet.add(currentStory)
-		print('')
+		log.write('\n')
 	return
 
 
@@ -62,9 +62,10 @@ for opt, arg in opts:
 		dir = os.path.normpath(arg)
 	elif opt in ("-r"):
 		recursive = True
-# print('Directory is', dir)
-# print('Recursive is', recursive)
+# log.write('Directory is', dir)
+# log.write('Recursive is', recursive)
 
+log = open('logs/SysReq_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 # Sets for all ids
 storySet = set()
 noUSTracingSet = set()
@@ -75,7 +76,7 @@ duplicateIDSet = set()
 if recursive:
 	for root, directories, filenames in os.walk(dir):
 		# for directory in directories:
-		# 	print os.path.join(root, directory)
+		# 	log.write os.path.join(root, directory)
 
 		for filename in filenames:
 			entry = os.path.join(root, filename)
@@ -97,17 +98,19 @@ else:
 				for line in file:
 					processRequirementsLine(line)
 
-# Simple printouts of all relevant sets.
-print('All stories:')
+# Simple log.writeouts of all relevant sets.
+log.write('All stories:\n')
 for currentStory in storySet:
-	print(currentStory)
-print('')
+	log.write(currentStory+'\n')
+log.write('\n')
 
-print('Requirements without traces to stories:')
+log.write('Requirements without traces to stories:\n')
 for currentID in noUSTracingSet:
-	print(currentID)
-print('')
+	log.write(currentID+'\n')
+log.write('\n')
 
-print('Duplicate requirements IDs:')
+log.write('Duplicate requirements IDs:\n')
 for currentID in duplicateIDSet:
-	print(currentID)
+	log.write(currentID+'\n')
+	
+log.close()
