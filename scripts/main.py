@@ -37,8 +37,8 @@ testsWithoutReqTraces = tcProcessor.noReqTracingSet
 
 log = open('logs/Summary_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 
-log.write('#T-Reqs commit report#\n\n')
-log.write('###Duplicate IDs###\n')
+log.write('# T-Reqs commit report #\n\n')
+log.write('### Duplicate IDs ###\n')
 log.write('The following duplicate User Story IDs exist:\n\n')
 for currentID in duplicateUS:
     log.write('* User Story ' + currentID + '\n')
@@ -55,7 +55,7 @@ for currentID in duplicateTC:
     
 log.write('\n')
 
-log.write('###Items without traces###\n')
+log.write('### Items without traces ###\n')
 log.write('The following System Requirements lack traces to user stories:\n\n')
 for currentID in reqsWithoutUSTraces:
     log.write('* System Requirement ' + currentID + '\n')
@@ -72,7 +72,7 @@ for currentID in testsWithoutReqTraces:
 
 log.write('\n')
 
-log.write('###Missing traces###\n')
+log.write('### Missing traces ###\n')
 log.write('The following user stories are not referenced by any system requirement:\n\n')
 for currentID in diffUSReq:
     log.write('* User Story ' + currentID + '\n')
