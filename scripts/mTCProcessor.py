@@ -1,7 +1,12 @@
 #!/usr/bin/python
-import getopt, os, fnmatch, re, sys, datetime
+import getopt, os, re, sys, datetime
 
 class TCProcessor:
+	try: 
+		os.makedirs('logs')
+	except OSError:
+		if not os.path.isdir('logs'):
+			raise
 	log = open('logs/TC_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 
 	#Sets for all ids
@@ -68,28 +73,25 @@ class TCProcessor:
 			self.log.write('\n')
 		return
 	
-	def processAllTC (self, dir, recursive):	
+	def processAllTC (self, dir, recursive, filePattern='TC_.*?(py|md)'):	
 		#recursive traversion of root directory
 		if recursive:
 			for root, directories, filenames in os.walk(dir):
 				#	for directory in directories:
 				#		self.log.write os.path.join(root, directory)
 				for filename in filenames:
-					#Only files ending on sys-reqts.md are scanned
-					patternA = "TC_*.md"
-					patternB = "TC_*.py"
-					if fnmatch.fnmatch(filename, patternA) or fnmatch.fnmatch(filename, patternB):
+					#Only files matching the given pattern are scanned
+					match = re.search(filePattern, entry)
+					if match:
 						with open(os.path.join(root,filename), "r") as file:
 							for line in file:
 								self.processTestCaseLine(line)
 		else:
 			listOfFiles = os.listdir(dir)
-		
-			#Only python or markdown files starting with TC are scanned
-			patternA = "TC_*.md"
-			patternB = "TC_*.py"
+			#Only files matching the given pattern are scanned
 			for entry in listOfFiles:
-				if fnmatch.fnmatch(entry, patternA) or fnmatch.fnmatch(entry, patternB):
+				match = re.search(filePattern, entry)
+				if match:
 					with open(os.path.join(dir,entry), "r") as file:
 						for line in file:
 							self.processTestCaseLine(line)
