@@ -6,9 +6,9 @@ tcDir = '../treqs-reqts'
 sysReqDir = '../treqs-reqts'
 
 #Default patterns for respective filenames (user stories, test cases, system requirements). Can be provided as function arguments.
-usPattern = 'US_.*?md'
-tcPattern = 'TC_.*?(py|md)'
-sysReqPattern = '.*?sys-reqts\.md'
+usPattern = 'US_.*?\.md'
+tcPattern = 'TC_.*?(\.py|\.md)'
+sysReqPattern = 'SR_.*?\.md'
 
 recursive = False
 

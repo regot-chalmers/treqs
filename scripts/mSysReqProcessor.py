@@ -54,7 +54,7 @@ class SysReqsProcessor:
 		return
 	
 	
-	def processAllLines (self, dir, recursive, filePattern='.*?sys-reqts\.md'):
+	def processAllLines (self, dir, recursive, filePattern='SR_.*?\.md'):
 			
 		# recursive traversion of root directory
 		if recursive:

@@ -77,7 +77,7 @@ class USProcessor:
 		self.log.write('\n')
 		return
 		
-	def processAllUSFiles ( self, dir, recursive, filePattern='US_.*?md'):
+	def processAllUSFiles ( self, dir, recursive, filePattern='US_.*?\.md'):
 		"Processes all files containing user stories, extracting user story tag IDs."
 		#recursive traversion of root directory
 		if recursive:
@@ -114,10 +114,10 @@ class USProcessor:
 			self.log.write(currentID+'\n')
 		return
 	
-	def processAllUS (self, dir, recursive, pattern):
+	def processAllUS (self, dir, recursive, filePattern='US_.*?\.md'):
 		"Shorthand, executing helper methods for user story extraction."
 		self.processAllOnlineUS()
-		self.processAllUSFiles(dir, recursive, pattern)
+		self.processAllUSFiles(dir, recursive, filePattern)
 		
 		self.log.close()
 		return

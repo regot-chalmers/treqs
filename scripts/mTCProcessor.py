@@ -73,7 +73,7 @@ class TCProcessor:
 			self.log.write('\n')
 		return
 	
-	def processAllTC (self, dir, recursive, filePattern='TC_.*?(py|md)'):	
+	def processAllTC (self, dir, recursive, filePattern='TC_.*?(\.py|\.md)'):	
 		#recursive traversion of root directory
 		if recursive:
 			for root, directories, filenames in os.walk(dir):
