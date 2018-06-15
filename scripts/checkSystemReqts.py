@@ -64,7 +64,11 @@ for opt, arg in opts:
 		recursive = True
 # log.write('Directory is', dir)
 # log.write('Recursive is', recursive)
-
+try: 
+    os.makedirs('logs')
+except OSError:
+    if not os.path.isdir('logs'):
+        raise
 log = open('logs/SysReq_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 # Sets for all ids
 storySet = set()

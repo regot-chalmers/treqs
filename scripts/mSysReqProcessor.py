@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import getopt, os, fnmatch, re, sys, datetime
+import getopt, os, re, sys, datetime
 
 class SysReqsProcessor:
 	log = open('logs/SysReq_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
@@ -54,30 +54,26 @@ class SysReqsProcessor:
 		return
 	
 	
-	def processAllLines (self, dir, recursive):
+	def processAllLines (self, dir, recursive, filePattern='.*?sys-reqts\.md'):
 			
 		# recursive traversion of root directory
 		if recursive:
 			for root, directories, filenames in os.walk(dir):
-				# for directory in directories:
-				# 	log.write os.path.join(root, directory)
-		
+				# for directory in directories
 				for filename in filenames:
-					entry = os.path.join(root, filename)
-		
-					# Only files ending on sys-reqts.md are scanned
-					pattern = "*sys-reqts.md"
-					if fnmatch.fnmatch(entry, pattern):
+					#Only files matching the given pattern are scanned
+					match = re.search(filePattern, filename)
+					if match:
+						entry = os.path.join(root, filename)
 						with open(entry, "r") as file:
 							for line in file:
 								self.processRequirementsLine(line)
 		else:
 			listOfFiles = os.listdir(dir)
-		
-			# Only files ending on sys-reqts.md are scanned
-			pattern = "*sys-reqts.md"
 			for entry in listOfFiles:
-				if fnmatch.fnmatch(entry, pattern):
+				#Only files matching the given pattern are scanned
+				match = re.search(filePattern, entry)
+				if match:
 					with open(os.path.join(dir, entry), "r") as file:
 						for line in file:
 							self.processRequirementsLine(line)

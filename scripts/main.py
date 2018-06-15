@@ -1,14 +1,50 @@
-import mUSProcessor, mSysReqProcessor, mTCProcessor, datetime
+import getopt, sys, mUSProcessor, mSysReqProcessor, mTCProcessor, datetime, os
 
+#Default paths for respective files (user stories, test cases, system requirements). Can be provided as function arguments.
+usDir = '../treqs-reqts'
+tcDir = '../treqs-reqts'
+sysReqDir = '../treqs-reqts'
+
+#Default patterns for respective filenames (user stories, test cases, system requirements). Can be provided as function arguments.
+usPattern = 'US_.*?md'
+tcPattern = 'TC_.*?(py|md)'
+sysReqPattern = '.*?sys-reqts\.md'
+
+recursive = False
+
+# argument options for this script. Only accepts the option d (root dir) and r (recursive)
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "hu:s:t:r", ["help","usdir=","sysreqdir=","tcdir=","uspattern=","srpattern=","tcpattern="])
+except getopt.GetoptError:
+    print('Usage: ' + sys.argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> -r')
+    sys.exit(2)
+for opt, arg in opts:
+    if opt in ("-u", "--usdir"):
+        usDir = os.path.normpath(arg)
+    elif opt in ("-s", "--sysreqdir"):
+        sysReqDir = os.path.normpath(arg)
+    elif opt in ("-t", "--tcdir"):
+        tcDir = os.path.normpath(arg)
+    elif opt in ("--uspattern"):
+        usPattern = os.path.normpath(arg)
+    elif opt in ("--srpattern"):
+        sysReqPattern = os.path.normpath(arg)
+    elif opt in ("--tcpattern"):
+        tcPattern = os.path.normpath(arg)
+    elif opt in ("-r"):
+        recursive = True
+    elif opt in ("-h", "--help"):
+        print('Usage: ' + sys.argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> [-r]')
+        sys.exit(2)
 #Do all the data processing here
 reqProcessor = mSysReqProcessor.SysReqsProcessor()
-reqProcessor.processAllLines('../treqs-reqts', True )
+reqProcessor.processAllLines(sysReqDir, recursive, sysReqPattern)
 
 usProcessor = mUSProcessor.USProcessor()
-usProcessor.processAllUS('../treqs-reqts', True )
+usProcessor.processAllUS(usDir, recursive, usPattern)
 
 tcProcessor = mTCProcessor.TCProcessor()
-tcProcessor.processAllTC('../treqs-reqts', True )
+tcProcessor.processAllTC(tcDir, recursive, tcPattern)
 
 #Get all the user stories and traces to them
 existingStories = usProcessor.storySet
@@ -34,6 +70,11 @@ reqsWithoutUSTraces = reqProcessor.noUSTracingSet
 testsWithoutUSTraces = tcProcessor.noUSTracingSet
 testsWithoutReqTraces = tcProcessor.noReqTracingSet
 
+try: 
+    os.makedirs('logs')
+except OSError:
+    if not os.path.isdir('logs'):
+        raise
 
 log = open('logs/Summary_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 
