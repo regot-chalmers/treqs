@@ -3,9 +3,9 @@
 import getopt, sys, mUSProcessor, mSysReqProcessor, mTCProcessor, datetime, os
 
 #Default paths for respective files (user stories, test cases, system requirements). Can be provided as function arguments.
-usDir = '../treqs-reqts'
-tcDir = '../treqs-reqts'
-sysReqDir = '../treqs-reqts'
+usDir = '../requirements'
+tcDir = '../tests'
+sysReqDir = '../requirements'
 
 #Default patterns for respective filenames (user stories, test cases, system requirements). Can be provided as function arguments.
 usPattern = 'US_.*?\.md'
