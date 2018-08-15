@@ -8,7 +8,7 @@ from treqs.main import main
 class TestSystem(unittest.TestCase):
     def test_logs_directory_is_created(self):
         """
-        [testcase id=TC1 story=US4 req=REQ3]
+        [testcase id=TC1 story=US1d req=REQ5]
 
         Ensure that a logs/ directory is created in the current
         directory when treqs is run.
