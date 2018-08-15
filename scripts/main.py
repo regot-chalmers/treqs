@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import getopt, sys, mUSProcessor, mSysReqProcessor, mTCProcessor, datetime, os
 
 #Default paths for respective files (user stories, test cases, system requirements). Can be provided as function arguments.
