@@ -1,3 +1,7 @@
 #!/usr/bin/env python
 
-import treqs
+import sys
+from treqs.main import main
+
+main(sys.argv)
+
