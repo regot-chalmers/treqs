@@ -40,6 +40,13 @@ def main(argv):
         elif opt in ("-h", "--help"):
             print('Usage: ' + argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> [-r]')
             sys.exit(2)
+
+    try:
+        os.makedirs('logs')
+    except OSError:
+        if not os.path.isdir('logs'):
+            raise
+
     #Do all the data processing here
     reqProcessor = mSysReqProcessor.SysReqsProcessor()
     reqProcessor.processAllLines(sysReqDir, recursive, sysReqPattern)
@@ -73,12 +80,6 @@ def main(argv):
     reqsWithoutUSTraces = reqProcessor.noUSTracingSet
     testsWithoutUSTraces = tcProcessor.noUSTracingSet
     testsWithoutReqTraces = tcProcessor.noReqTracingSet
-
-    try: 
-        os.makedirs('logs')
-    except OSError:
-        if not os.path.isdir('logs'):
-            raise
 
     log = open('logs/Summary_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 

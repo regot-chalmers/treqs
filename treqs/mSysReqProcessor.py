@@ -2,14 +2,16 @@
 import getopt, os, re, sys, datetime
 
 class SysReqsProcessor:
-	log = open('logs/SysReq_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
-	
+
 	# Sets for all ids
 	storySet = set()
 	noUSTracingSet = set()
 	reqIDSet = set()
 	duplicateIDSet = set()
-	
+
+	def __init__(self):
+		self.log = open('logs/SysReq_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w+")
+
 	# function defs
 	# NOTE: Not self-contained/effect-free. It uses and mutates the sets in which ids are stored (storySet,noUSTracingSet,reqIDSet,duplicateIDSet)
 	def processRequirementsLine(self, line):
@@ -55,7 +57,7 @@ class SysReqsProcessor:
 	
 	
 	def processAllLines (self, dir, recursive, filePattern='SR_.*?\.md'):
-			
+
 		# recursive traversion of root directory
 		if recursive:
 			for root, directories, filenames in os.walk(dir):
@@ -77,7 +79,7 @@ class SysReqsProcessor:
 					with open(os.path.join(dir, entry), "r") as file:
 						for line in file:
 							self.processRequirementsLine(line)
-		
+
 		# Simple log.writeouts of all relevant sets.
 		self.log.write('All stories:\n')
 		for currentStory in self.storySet:
