@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c7e1e9d_d162c5bc",
+        "filename": "requirements/SR_all_sysreqs.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014260
+      },
+      "writtenOn": "2018-08-15T15:05:49Z",
+      "side": 1,
+      "message": "User stories",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "9c1fd18d43a642949a60102308741244fbb2e4c6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
