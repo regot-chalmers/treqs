@@ -116,7 +116,8 @@ class USProcessor:
 	
 	def processAllUS (self, dir, recursive, filePattern='US_.*?\.md'):
 		"Shorthand, executing helper methods for user story extraction."
-		self.processAllOnlineUS()
+                # TODO: reactivate when no error
+		# self.processAllOnlineUS()
 		self.processAllUSFiles(dir, recursive, filePattern)
 		
 		self.log.close()
