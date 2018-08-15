@@ -13,3 +13,14 @@ Further reading:
 - [Requirements Challenges in Large-Scale Agile](https://oerich.wordpress.com/2017/06/28/re-for-large-scale-agile-system-development/)
 - [T-Reqs: Key idea and User Stories](https://arxiv.org/abs/1805.02769)
 
+## Requirements
+
+  Python 3.x
+
+## Running test cases for the treqs package
+
+From root of the treqs git repo directory, run
+
+    pip install -e .
+    ./run_tests.sh
+
