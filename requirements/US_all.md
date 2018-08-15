@@ -2,8 +2,6 @@
 
 ## User stories for XFT member
 
-[userstory id=US1]
-As a member of a XFT, I want to 
  [userstory id=US1a] share new knowledge we learnt about existing requirements during a sprint so that our implementation and the requirements on system level are consistent. 
  [userstory id=US1b] be aware of requirements changes that affect my team so that we can pro-actively address dependencies. 
  [userstory id=US1c] update system requirements efficiently, without too much overhead, and ideally integrated in the tools I use in my daily work. 
