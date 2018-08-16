@@ -1,25 +1,26 @@
 # Vision for T-Reqs demonstrator
 
-This file is supposed to collect some ideas on how to build the demonstrator.
+This file provides a high-level view of the requirements for making T-Reqs demonstratable. 
 
 ## Example Requirements
 
-For a demonstrator, we need example (system) requirements, high-level use cases / user stories / features, and tests. 
-Potentially even software.
+For a demonstrator, we need example (system) requirements, high-level use cases / user stories / features, scripts and tests. 
 
 ### Domain
-Our current idea is to use requirements of T-Reqs as this example. 
-Thus, building the open source flavour of T-Reqs within itself.
+T-Reqs aims to support managing requirements in large-scale agile development, independent from the domain. 
+Since scripts, tests, and templates of T-Reqs should evolve at the same time as the product and its requirements evolve (infrastructure as code), we need a minimal working instance of T-Reqs to help projects that want to use it to get started. 
+For this, we provide requirements of T-Reqs as a example. 
+Thus, we are building the open source flavour of T-Reqs within itself.
 
-We will then maintain requirements and tests for scripts (see below).
+We therefore maintain requirements and tests for scripts (see below).
 
-We believe that could make a good and limited real world-example. That would be somewhat like making a compiler for a programming language in the programming language itself.
+We believe that  makes a good and well-scoped real world-example. 
 
 ### High-level user requirements
-We aim for using Github issues as work packages/user stories/etc. In the example below we use “#1” to refer to https://github.com/regot-chalmers/treqs/issues/1 .
+We are using Github issues as work packages/user stories/etc. In the example below we use “#1” to refer to https://github.com/regot-chalmers/treqs/issues/1 .
  
-## Template
-The minimal template is as follows.
+## Minimal setup
+The minimal setup (as provided by the folders in this project) is as follows.
  
 * An .md file containing requirements simulates system requirements. For instance, the following text would represent a single requirement with id REQ1 that has traces to user stories US1 and US2:
 
@@ -83,4 +84,5 @@ The main.py script is the overall execution script, invoking all required module
 
 The scripting currently assumes that all tags ([userstory], [testcase] and [requirement]) and the attributes are as described above. Furthermore, without command line argmuents, main.py assumes that all files are under treqs-reqts, that user story files are markdown files starting with "US\_", that system requirement files are markdown files starting with "SR\_", and that test case files are either markdown or python files starting with "TC\_".
 
-An instance of Travis-CI will be added that executes this script for every commit and publishes the report.
+Optionally, a CI server (Travis, Jenkins) can be used to automatically run the scripts and report any problems with the requirements and their tracing.
+We aim to provide an example of this in the near future.
