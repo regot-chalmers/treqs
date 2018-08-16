@@ -40,18 +40,12 @@ Purpose: Editing a system requirement and putting the change up for review
 1. Make a change to a file containing requirements with a text editor
 2. Run "git add FILE"
 3. Run "git commit -m 'test'"
-4. Run "git push HEAD:refs/for/master" to push the commit to Gerrit
+4. Run "git push origin HEAD:refs/for/master" to push the commit to Gerrit
 5. Go to https://review.gerrithub.io/dashboard/self
 6. Click the new change
 7. Add a reviewer (note: this can be either a developer, a system manager ora test architect)
 8. Have that reviewer +2 the change
 9. Submit the change
-
-1. Go to https://github.com/regot-chalmers/treqs/issues
-2. Press the New issue button
-3. Select User story
-4. Fill in the template
-5. Press the Submit new issue button
 
 ## Expected outcome
 
