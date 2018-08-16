@@ -3,12 +3,9 @@ import getopt, os, re, sys, datetime, requests
 
 
 class USProcessor:
-	try: 
-   		os.makedirs('logs')
-	except OSError:
-		if not os.path.isdir('logs'):
-			raise
-	log = open('logs/US_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
+
+	def __init__(self):
+		self.log = open('logs/US_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
 
 	#Sets for all ids
 	storySet = set()
