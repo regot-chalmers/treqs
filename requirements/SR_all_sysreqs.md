@@ -18,19 +18,23 @@ Treqs shall list all user stories without system requirements in a given folder.
 Treqs shall provide great usability.
 NOTE: This is a dummy requirement to test the tracing (or absence of) to user stories!
 
+
 ## Logging
 
 [requirement id=REQ5 story=US1d]
 
 Treqs shall write the output to a log folder in the current directory.
 
-## User stories
+[requirement id=REQ11 story=US1c]
+
+Treqs shall list all test cases documented in a given folder.
+
+
+## Workflow
 
 [requirement id=REQ6 story=US1d]
 
 It shall be possible to create user stories in GitHub.
-
-## Requirements
 
 [requirement id=REQ7 story=US1c,US1a]
 
@@ -39,6 +43,8 @@ It shall be possible to update a system requirement by using the same workflow a
 [requirement id=REQ8 story=US3]
 
 It shall be possible to work on requirements on a separate branch from master.
+
+## Review
 
 [requirement id=REQ9 story=US2]
 

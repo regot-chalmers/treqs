@@ -1,4 +1,4 @@
-# [testcase id=TC2 story=US1 req=REQ1]
+# [testcase id=TC2 story=US1 req=REQ6]
 
 Purpose: Test that a user story can be created in GitHub
 
@@ -28,7 +28,7 @@ The new user story is listed on https://github.com/regot-chalmers/treqs/issues
 Protocol of the result of executing this test, latest on top.
 
 
-# [testcase id=TC3 story=US1a,US1b,US1c,US2,US4 req=REQ9,REQ10]
+# [testcase id=TC3 story=US1a,US1b,US1c,US2,US4 req=REQ7,REQ9,REQ10]
 
 Purpose: Editing a system requirement and putting the change up for review
 
