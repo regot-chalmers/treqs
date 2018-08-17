@@ -18,6 +18,13 @@ Treqs shall list all user stories without system requirements in a given folder.
 Treqs shall provide great usability.
 NOTE: This is a dummy requirement to test the tracing (or absence of) to user stories!
 
+[requirement id=REQ12 story=US1c]
+
+Treqs shall, when run without arguments, look for artefacts in the following directories and files:
+
+- User stories: requirements/US\*
+- Requirements: requirements/SR\*
+- Test cases: testcases/TC\*
 
 ## Logging
 

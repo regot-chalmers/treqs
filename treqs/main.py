@@ -6,9 +6,9 @@ from treqs import mUSProcessor, mSysReqProcessor, mTCProcessor
 def main(argv):
 
     #Default paths for respective files (user stories, test cases, system requirements). Can be provided as function arguments.
-    usDir = '../requirements'
-    tcDir = '../tests'
-    sysReqDir = '../requirements'
+    usDir = 'requirements'
+    tcDir = 'tests'
+    sysReqDir = 'requirements'
 
     #Default patterns for respective filenames (user stories, test cases, system requirements). Can be provided as function arguments.
     usPattern = 'US_.*?\.md'

@@ -25,7 +25,14 @@ We have not tried, but are confident that for example instead of a gerrit-based 
 
   Python 3.x
 
+
 ### Getting started
+
+#### Installation
+
+Clone this repo, then from the root of repo directory, run
+
+    pip install -e .
 
 #### Project structure
 
@@ -42,16 +49,14 @@ It also demonstrates how tests and requirements can be linked and managed togeth
 T-Reqs combines these things together and encourages each part to evolve as you develop software. 
 I.e. the scripts and templates should be evolved and adjusted to your organization's needs by the people that use them: The agile teams.
 
-#### Running scripts on example requirements
+#### Usage
 
-    cd requirements
-    treqs
+    treqs [-u USE_CASE_DIRECTORY] [-s SYSTEM_REQUIREMENTS_DIRECTORY] [-t TESTS_DIRECTORY]
+
+When run without arguments, treqs looks in `requirements/` for use cases and requirements and in `tests/` for test cases.
 
 #### Running test cases for the treqs package
 
-From root of the treqs git repo directory, run
-
-    pip install -e .
     ./run_tests.sh
 
 ### Minimal setup
