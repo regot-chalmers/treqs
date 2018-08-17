@@ -47,7 +47,7 @@ Purpose: Editing a system requirement and putting the change up for review
 5. Run "git push origin HEAD:refs/for/master" to push the commit to Gerrit
 6. Go to https://review.gerrithub.io/dashboard/self
 7. Click the new change
-8. Add a reviewer (note: this can be either a developer, a system manager ora test architect)
+8. Add a reviewer (note: this can be either a developer (US1b), a system manager (US2,US4) or a test architect(US4))
 9. Have that reviewer +2 the change
 10. Submit the change
 

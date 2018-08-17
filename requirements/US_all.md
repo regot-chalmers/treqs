@@ -24,3 +24,5 @@ As member of an experimenting team, I want to experiment with new requirements a
 ### [userstory id=US4]
 As a test architect or system manager, I want to be aware of new requirements for the test infrastructure early on so that I can plan verification and validation pro-actively. 
 
+### [userstory id=US5]
+As a non-team-member (e.g. system manager outside of team, another team working on related feature, ...) I want to read requirements without access to the repository.
