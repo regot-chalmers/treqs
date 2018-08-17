@@ -57,6 +57,38 @@ class TestSystem(unittest.TestCase):
                 with _open_file_in_directory_starting_with('logs', start_of_filename) as f:
                     self.assertIn(artefact_name, f.read())
 
+    def test_default_artefact_locations(self):
+        """
+        [testcase id=TC6 story=US1c req=REQ12]
+
+        Ensure that, if no arguments are specified, treqs
+        looks in the default locations for artefacts 
+        """
+        # Arrange
+        os.mkdir('requirements')
+        os.mkdir('tests')
+
+        # Arrange
+        # Workaround due to https://github.com/regot-chalmers/treqs/issues/29
+        with open('requirements/US_all.md', 'w+') as f:
+            f.write('[user' + 'story id=UStemp]')
+        with open('tests/TC_all.md', 'w+') as f:
+            f.write('[test' + 'case id=TCtemp]')
+        with open('requirements/SR_all.md', 'w+') as f:
+            f.write('[requir' + 'ement id=REQtemp]')
+
+        # Act
+        main(['treqs'])
+
+        # Assert
+        for start_of_filename, artefact_name in [('TC', 'TCtemp'),
+                                                 ('SysReq', 'REQtemp'),
+                                                 ('US', 'UStemp')]:
+            with self.subTest(artefact_name):
+                with _open_file_in_directory_starting_with('logs', start_of_filename) as f:
+                    self.assertIn(artefact_name, f.read())
+
+
     def test_list_user_stories_without_requirements(self):
         """
         [testcase id=TC5 story=US1d req=REQ3]
