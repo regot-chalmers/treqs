@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c42736fc_2ebfc50a",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1014268
+      },
+      "writtenOn": "2018-08-17T07:03:06Z",
+      "side": 1,
+      "message": "Running these scripts need treqs to be installed. So we should add a first section\n\n### Installation\n\nFrom root of the treqs git repo directory, run\n\n    pip install -e .",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 44
+      },
+      "revId": "9ee3fff4c616166833672778d161e5e7176bc2d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6544b02b_5763810a",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1014268
+      },
+      "writtenOn": "2018-08-17T07:03:06Z",
+      "side": 1,
+      "message": "Well, this is actually not currently true. When running treqs without arguments, currently, the script is hardcoded to look for \n\n- Files named TC* in ../testcases\n- Files named SR* in ../requirements\n- Files named US* in ../requirements\n\nNote the leading ../ - this means that you need to be in a directory one step down in order to find the files.\n\nThis is not very good usability, so I\u0027ll try to fix it today.\n\nIn conclusion, what is written here is not exactly true, but I think we should submit this anyway, and I\u0027ll update the code and README during the day so that it matches. I created https://github.com/regot-chalmers/treqs/issues/28 for this.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "9ee3fff4c616166833672778d161e5e7176bc2d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6119b94_880770c7",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1014268
+      },
+      "writtenOn": "2018-08-17T07:03:06Z",
+      "side": 1,
+      "message": "If we add a section Installation as above, we do not need to repeat that here.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 20
+      },
+      "revId": "9ee3fff4c616166833672778d161e5e7176bc2d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f7ef9ad_34de1abd",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1014268
+      },
+      "writtenOn": "2018-08-17T07:03:06Z",
+      "side": 1,
+      "message": "Renamed to treqs/",
+      "range": {
+        "startLine": 116,
+        "startChar": 36,
+        "endLine": 116,
+        "endChar": 43
+      },
+      "revId": "9ee3fff4c616166833672778d161e5e7176bc2d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45118187_60966a19",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1014268
+      },
+      "writtenOn": "2018-08-17T07:03:06Z",
+      "side": 1,
+      "message": "I realize now that we do not currently verify that all artefacts that are traced to actually exist. I.e., we could have a definition\n\n[testcase id\u003dTC_python_test1 story\u003dUS_DOES_NOT_EXIST req\u003dREQ3]\n\nand treqs would not complain.\n\nI created https://github.com/regot-chalmers/treqs/issues/27 for this issue. I don\u0027t think it needs to be solved for the conference demo.",
+      "revId": "9ee3fff4c616166833672778d161e5e7176bc2d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648f8eb8_6248a063",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1014268
+      },
+      "writtenOn": "2018-08-17T07:03:06Z",
+      "side": 1,
+      "message": "This is not true, but I will update this as part of https://github.com/regot-chalmers/treqs/issues/28 , so you can submit this.",
+      "range": {
+        "startLine": 120,
+        "startChar": 219,
+        "endLine": 120,
+        "endChar": 230
+      },
+      "revId": "9ee3fff4c616166833672778d161e5e7176bc2d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
