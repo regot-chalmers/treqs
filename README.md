@@ -25,9 +25,25 @@ We have not tried, but are confident that for example instead of a gerrit-based 
 
   Python 3.x
 
-### Getting started
 
-#### Project structure
+## Getting started
+
+### Installation
+
+Clone this repo, then from the root of repo directory, run
+
+    pip install -e .
+
+### Running scripts on example requirements
+
+    treqs 
+
+
+### Running test cases for the treqs package
+
+    ./run_tests.sh
+
+## Project structure
 
   - __requirements__ This folder contains a working example of requirements for T-Reqs, which we manage in T-Reqs. 
 In many large-scale agile organizations, requirements originate from a different tool. 
@@ -42,19 +58,8 @@ It also demonstrates how tests and requirements can be linked and managed togeth
 T-Reqs combines these things together and encourages each part to evolve as you develop software. 
 I.e. the scripts and templates should be evolved and adjusted to your organization's needs by the people that use them: The agile teams.
 
-#### Running scripts on example requirements
 
-    cd requirements
-    treqs
-
-#### Running test cases for the treqs package
-
-From root of the treqs git repo directory, run
-
-    pip install -e .
-    ./run_tests.sh
-
-### Minimal setup
+## Minimal setup
 The minimal setup (as provided by the folders in this project) is as follows.
  
 * An .md file containing requirements simulates system requirements. For instance, the following text would represent a single requirement with id REQ1 that has traces to user stories US1 and US2:
@@ -112,14 +117,22 @@ The minimal setup (as provided by the folders in this project) is as follows.
 
 The formats are here mainly chosen for convenience, but can easily be adapted to any company standard. 
 
-## Scripts
-Python scripts are included (in the scripts directory) that verify the tracing between user stories, system requirements, as well as test cases. Furthermore, they verify that ids are unique and that there are no user stories or test cases that lack traces.
+## Usage
 
-The main.py script is the overall execution script, invoking all required modules and producing a markdown log file (Summary_*) in the logs folder (scripts/logs). The script can be provided with several command line arguments (directories for all artifact types, file name patterns, recursive directory traversion).
+    Usage:
+      treqs [-u DIR] [-s DIR] [-t DIR] [--uspattern PATTERN] [--srpattern PATTERN] [--tcpattern PATTERN] [-r]
 
-The scripting currently assumes that all tags ([userstory], [testcase] and [requirement]) and the attributes are as described above. Furthermore, without command line argmuents, main.py assumes that all files are under treqs-reqts, that user story files are markdown files starting with "US\_", that system requirement files are markdown files starting with "SR\_", and that test case files are either markdown or python files starting with "TC\_".
+    Options:
+      -u           directory to search for user stories [default: requirements/]
+      -s           directory to search for system requirements [default: requirements/]
+      -s           directory to search for test cases [default: tests/]
+      --uspattern  pattern to match user story file names [default: US_.*?\.md]
+      --srpattern  pattern to match system requirement file names [default: SR_.*?\.md]
+      --tcpattern  pattern to match test file names [default: TC_.*?(\.py|\..md)]
+      -r           traverse directories recursively
 
-Optionally, a CI server (Travis, Jenkins) can be used to automatically run the scripts and report any problems with the requirements and their tracing.
+The treqs command produces a markdown log file (Summary_\*) in the logs folder (scripts/logs). 
+
 
 ## Further reading:
 - [Requirements Challenges in Large-Scale Agile](https://oerich.wordpress.com/2017/06/28/re-for-large-scale-agile-system-development/)

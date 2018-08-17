@@ -12,10 +12,12 @@ Purpose: Test that a user story can be created in GitHub
 3. Select User story
 4. Fill in the template
 5. Press the Submit new issue button
+6. Run "treqs"
 
 ## Expected outcome
 
-The new user story is listed on https://github.com/regot-chalmers/treqs/issues
+1. The new user story is listed on https://github.com/regot-chalmers/treqs/issues
+2. The new user story is listed in the file logs/US...
 
 ## Tear down
 
@@ -28,6 +30,7 @@ The new user story is listed on https://github.com/regot-chalmers/treqs/issues
 Protocol of the result of executing this test, latest on top.
 
 
+
 # [testcase id=TC3 story=US1a,US1b,US1c,US2,US4 req=REQ7,REQ9,REQ10]
 
 Purpose: Editing a system requirement and putting the change up for review
@@ -38,18 +41,20 @@ Purpose: Editing a system requirement and putting the change up for review
 ## Scenario / Steps
 
 1. Make a change to a file containing requirements with a text editor
-2. Run "git add FILE"
-3. Run "git commit -m 'test'"
-4. Run "git push origin HEAD:refs/for/master" to push the commit to Gerrit
-5. Go to https://review.gerrithub.io/dashboard/self
-6. Click the new change
-7. Add a reviewer (note: this can be either a developer, a system manager ora test architect)
-8. Have that reviewer +2 the change
-9. Submit the change
+2. Run "treqs" 
+3. Run "git add FILE"
+4. Run "git commit -m 'test'"
+5. Run "git push origin HEAD:refs/for/master" to push the commit to Gerrit
+6. Go to https://review.gerrithub.io/dashboard/self
+7. Click the new change
+8. Add a reviewer (note: this can be either a developer, a system manager ora test architect)
+9. Have that reviewer +2 the change
+10. Submit the change
 
 ## Expected outcome
 
-The requirement file has been updated on https://github.com/regot-chalmers/treqs
+1. No errors are listed in the file logs/Summary...
+2. The requirement file has been updated on https://github.com/regot-chalmers/treqs
 
 ## Tear down
 
@@ -81,8 +86,8 @@ Purpose: Creating a new requirement on a branch
 
 ## Expected outcome
 
-1. When running treqs on the new branch, the new requirement shall be listed
-2. When running treqs on the master branch, the new requirement shall not be listed
+1. After running "treqs" on the new branch, the new requirement is listed in logs/SysReq...
+2. A running "treqs" on the master branch, the new requirement is not listed in logs/SysReq...
 
 ## Tear down
 
