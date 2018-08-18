@@ -9,4 +9,5 @@ setup(name='treqs',
       license='MIT',
       packages=['treqs'],
       scripts=['bin/treqs'],
+      install_requires=['requests'],
       zip_safe=False)
