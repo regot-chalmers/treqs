@@ -18,6 +18,7 @@ class TCProcessor:
 	def processTestCaseLine( self, line):
 		"This process a single line in a test case file, extracting duplicate IDs, missing traces, and a list of all traces to US and requirements."
 	
+		success = True
 		#Extracts the actual test case tag if there is one. Note that this requires the tag to be in a single line.
 		m = re.search('\[testcase .*?\]', line)
 		if m:
@@ -35,16 +36,18 @@ class TCProcessor:
 				if id in self.testIDSet:
 					self.log.write('Duplicate TC id:'+id+'\n')
 					self.duplicateIDSet.add(id)
+					success = False
 				else:
 					self.testIDSet.add(id)
 	
-				#Find all story attributes. Supports also multiple storu attributes in theory.
+				#Find all story attributes. Supports also multiple story attributes in theory.
 				stories = re.findall('(?<=story=).*?(?=[ \]])', reqtag)
 	
 				#Find test cases without user story traces
 				if len(stories)==0:
 					self.log.write('Warning: Test is not traced to a user story!\n')
 					self.noUSTracingSet.add(id)
+					success = False
 				else:
 					for currentUS in stories:
 						#Support potential commas in an issue attribute
@@ -60,6 +63,7 @@ class TCProcessor:
 				if len(reqs)==0:
 					self.log.write('Warning: Test is not traced to a requirement!\n')
 					self.noReqTracingSet.add(id)
+					success = False
 				else:
 					for currentReq in reqs:
 						#Support potential commas in an req attribute
@@ -68,9 +72,12 @@ class TCProcessor:
 							self.log.write(currentReq)
 							self.reqSet.add(currentReq)
 			self.log.write('\n')
-		return
+		return success
 	
-	def processAllTC (self, dir, recursive, filePattern='TC_.*?(\.py|\.md)'):	
+	def processAllTC (self, dir, recursive, filePattern='TC_.*?(\.py|\.md)'):
+		
+		success = True
+			
 		#recursive traversion of root directory
 		if recursive:
 			for root, directories, filenames in os.walk(dir):
@@ -82,7 +89,7 @@ class TCProcessor:
 					if match:
 						with open(os.path.join(root,filename), "r") as file:
 							for line in file:
-								self.processTestCaseLine(line)
+								success = self.processTestCaseLine(line) and success
 		else:
 			listOfFiles = os.listdir(dir)
 			#Only files matching the given pattern are scanned
@@ -91,7 +98,7 @@ class TCProcessor:
 				if match:
 					with open(os.path.join(dir,entry), "r") as file:
 						for line in file:
-							self.processTestCaseLine(line)
+							success = self.processTestCaseLine(line) and success
 		
 		#Simple self.log.writeouts of all relevant sets.
 		self.log.write('All story traces:\n')
@@ -119,4 +126,4 @@ class TCProcessor:
 			self.log.write(currentID+'\n')
 			
 		self.log.close()
-		return
+		return success
