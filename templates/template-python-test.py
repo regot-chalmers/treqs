@@ -1,12 +1,11 @@
 import unittest
 
-#==================================
-# [testcase id=TC1TestCaseName story=US1 req=REQ1]
-# 
-# <Purpose of the test case>
-# 
-#==================================
-class TC1TestCaseName(unittest.TestCase):
+class test_case_name(unittest.TestCase):
+    """
+    [testcase id=TC1 story=US1 req=REQ1]
+    
+    <Purpose of the test case>
+    """
 
     def test_upper(self):
         self.assertEqual('foo'.upper(), 'FOO')
