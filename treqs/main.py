@@ -49,13 +49,13 @@ def main(argv):
 
     #Do all the data processing here
     reqProcessor = mSysReqProcessor.SysReqsProcessor()
-    reqProcessor.processAllLines(sysReqDir, recursive, sysReqPattern)
+    success = reqProcessor.processAllLines(sysReqDir, recursive, sysReqPattern)
 
     usProcessor = mUSProcessor.USProcessor()
-    usProcessor.processAllUS(usDir, recursive, usPattern)
+    success = usProcessor.processAllUS(usDir, recursive, usPattern) and success
 
     tcProcessor = mTCProcessor.TCProcessor()
-    tcProcessor.processAllTC(tcDir, recursive, tcPattern)
+    success = tcProcessor.processAllTC(tcDir, recursive, tcPattern) and success
 
     #Get all the user stories and traces to them
     existingStories = usProcessor.storySet
@@ -64,12 +64,17 @@ def main(argv):
     #Calculate which story IDs are not traced to
     diffUSReq = existingStories.difference(tracedStoriesFromReqs)
     diffUSTests = existingStories.difference(tracedStoriesFromTests)
+    #Calculate whether there are any traces to non-existing stories
+    nonExistingUSReqs = tracedStoriesFromReqs.difference(existingStories)
+    nonExistingUSTests = tracedStoriesFromTests.difference(existingStories)
 
     #Get all the requirements and traces to them
     existingReqs = reqProcessor.reqIDSet
     tracedReqsFromTests = tcProcessor.reqSet
     #Calculate which Req IDs are not traced to
     diffReqTests = existingReqs.difference(tracedReqsFromTests)
+    #Calculate which Req IDs are traced to but do not exist
+    nonExistingReqTC = tracedReqsFromTests.difference(existingReqs)
 
     #Get all duplicate IDs
     duplicateUS = usProcessor.duplicateStorySet
@@ -80,8 +85,12 @@ def main(argv):
     reqsWithoutUSTraces = reqProcessor.noUSTracingSet
     testsWithoutUSTraces = tcProcessor.noUSTracingSet
     testsWithoutReqTraces = tcProcessor.noReqTracingSet
+    
+    if success and (len(nonExistingUSReqs)>0 or len(nonExistingUSTests)>0 or len(nonExistingReqTC)>0):
+        success = False
 
-    log = open('logs/Summary_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md',"w")
+    filename = 'logs/Summary_log_'+datetime.datetime.now().strftime("%Y%m%d%H%M%S")+'.md'
+    log = open(filename,"w")
 
     log.write('# T-Reqs commit report #\n\n')
     log.write('### Duplicate IDs ###\n')
@@ -133,7 +142,30 @@ def main(argv):
     for currentID in diffReqTests:
         log.write('* System Requirement ' + currentID + '\n')
         
+    log.write('\n')
+    log.write('### Missing items ###\n')
+    log.write('The following user stories are referenced by requirements, but do not exist:\n\n')
+    for currentID in nonExistingUSReqs:
+        log.write('* User Story ' + currentID + '\n')
+        
+    log.write('\n')
+    log.write('The following user stories are referenced by test cases, but do not exist:\n\n')
+    for currentID in nonExistingUSTests:
+        log.write('* User Story ' + currentID + '\n')
+        
+    log.write('\n')
+    log.write('The following requirements are referenced by test cases, but do not exist:\n\n')
+    for currentID in nonExistingReqTC:
+        log.write('* Requirement ' + currentID + '\n')
+        
     log.close()
+    
+    #Return -1 if the validation has failed, and print the log to the console
+    if not success:
+        print('Validation failed with the following output:\n')
+        with open(filename, 'r') as f:
+            print(f.read())
+        return -1
 
 if __name__ == '__main__':
     main(sys.argv)
