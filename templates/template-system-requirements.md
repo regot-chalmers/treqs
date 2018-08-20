@@ -1,6 +1,21 @@
-Some supplementary text
+# Document title
 
-[requirement id=REQ1 story=US1]
+Document description
+
+
+## Subsection
+
+Section description
+
+### [requirement id=REQ1 story=US1]
+
 Requirement text
 
-More supplementary text
+
+## Subsection
+
+Section description
+
+### [requirement id=REQ2 story=US1]
+
+Requirement text
