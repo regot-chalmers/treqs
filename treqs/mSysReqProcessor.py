@@ -17,6 +17,8 @@ class SysReqsProcessor:
 	def processRequirementsLine(self, line):
 		"This process a single line in a requirements file, extracting duplicate IDs, missing US traces, and a list of all traces to US."
 	
+		success = True
+		
 		# Extracts the actual requirement tag if there is one. Note that this requires the tag to be in a single line.
 		m = re.search('\[requirement .*?\]', line)
 		if m:
@@ -34,6 +36,7 @@ class SysReqsProcessor:
 			if id in self.reqIDSet:
 				self.log.write('Duplicate requirement id:'+id+'\n')
 				self.duplicateIDSet.add(id)
+				success = False
 			else:
 				self.reqIDSet.add(id)
 	
@@ -45,6 +48,7 @@ class SysReqsProcessor:
 			if len(stories) == 0:
 				self.log.write('Warning: Requirement is not traced to a user story!\n')
 				self.noUSTracingSet.add(id)
+				success = False
 			else:
 				for currentUS in stories:
 					# Support potential commas in an issue attribute
@@ -53,10 +57,12 @@ class SysReqsProcessor:
 						self.log.write(currentStory+'\n')
 						self.storySet.add(currentStory)
 			self.log.write('\n')
-		return
+		return success
 	
 	
 	def processAllLines (self, dir, recursive, filePattern='SR_.*?\.md'):
+
+		success = True 
 
 		# recursive traversion of root directory
 		if recursive:
@@ -69,7 +75,7 @@ class SysReqsProcessor:
 						entry = os.path.join(root, filename)
 						with open(entry, "r") as file:
 							for line in file:
-								self.processRequirementsLine(line)
+								success = self.processRequirementsLine(line) and success
 		else:
 			listOfFiles = os.listdir(dir)
 			for entry in listOfFiles:
@@ -78,7 +84,7 @@ class SysReqsProcessor:
 				if match:
 					with open(os.path.join(dir, entry), "r") as file:
 						for line in file:
-							self.processRequirementsLine(line)
+							success = self.processRequirementsLine(line) and success
 
 		# Simple log.writeouts of all relevant sets.
 		self.log.write('All stories:\n')
@@ -96,4 +102,4 @@ class SysReqsProcessor:
 			self.log.write(currentID+'\n')
 			
 		self.log.close()
-		return
+		return success

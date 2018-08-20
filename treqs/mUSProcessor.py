@@ -15,6 +15,7 @@ class USProcessor:
 	def processStoryLine( self, line):
 		"This processes a single line in a user story file, extracting duplicate IDs and a list of all US ids."
 	
+		success = True
 		#Extracts the actual user story tag if there is one. Note that this requires the tag to be in a single line.
 		m = re.search('\[userstory .*?\]', line)
 		if m:
@@ -32,13 +33,16 @@ class USProcessor:
 				if id in self.storySet:
 					self.log.write('Duplicate story id:'+id+'\n')
 					self.duplicateStorySet.add(id)
+					success = False
 				else:
 					self.storySet.add(id)
 			self.log.write('\n')
-		return
+		return success
 	
 	def processAllOnlineUS (self, repoURL='https://api.github.com/repos/regot-chalmers/treqs'):
 		"This processes a github repo, querying all open issues and extracting the ones with users tory label. From those, the IDs are exctracted"
+		
+		success = True
 		
 		#Get all open issues from the given github repo.
 		r = requests.get(repoURL.rstrip() + '/issues?state=open')
@@ -53,9 +57,9 @@ class USProcessor:
 			
 			if 'user story' in labelSet:
 				#Extracts the actual user story tag if there is one. Note that this requires the tag to be in a single line.
-				m = re.search('\[userstory .*?\]', currentItem['body'])
+				m = re.search('\[userstory .*?\]', currentItem['title'])
 				if m:
-					self.log.write('New Story:\n')
+					self.log.write('New online story:\n')
 					reqtag = m.group(0)
 					self.log.write(reqtag+'\n')
 					
@@ -69,13 +73,16 @@ class USProcessor:
 						if id in self.storySet:
 							self.log.write('Duplicate story id:'+id+'\n')
 							self.duplicateStorySet.add(id)
+							success = False
 						else:
 							self.storySet.add(id)
 		self.log.write('\n')
-		return
+		return success
 		
 	def processAllUSFiles ( self, dir, recursive, filePattern='US_.*?\.md'):
 		"Processes all files containing user stories, extracting user story tag IDs."
+		
+		success = True
 		#recursive traversion of root directory
 		if recursive:
 			for root, directories, filenames in os.walk(dir):
@@ -88,7 +95,7 @@ class USProcessor:
 					if match:
 						with open(os.path.join(root,filename), "r") as file:
 							for line in file:
-								self.processStoryLine(line)
+								success = self.processStoryLine(line) and success
 		else:
 			listOfFiles = os.listdir(dir)
 		
@@ -98,7 +105,7 @@ class USProcessor:
 				if match:
 					with open(os.path.join(dir,entry), "r") as file:
 						for line in file:
-							self.processStoryLine(line)
+							success = self.processStoryLine(line) and success
 		
 		#Simple self.log.writeouts of all relevant sets.
 		self.log.write('All stories:\n')
@@ -109,12 +116,13 @@ class USProcessor:
 		self.log.write('Duplicate story IDs:\n')
 		for currentID in self.duplicateStorySet:
 			self.log.write(currentID+'\n')
-		return
+		return success
 	
 	def processAllUS (self, dir, recursive, filePattern='US_.*?\.md'):
 		"Shorthand, executing helper methods for user story extraction."
-		self.processAllOnlineUS()
-		self.processAllUSFiles(dir, recursive, filePattern)
+		
+		success = self.processAllOnlineUS()
+		success = self.processAllUSFiles(dir, recursive, filePattern) and success
 		
 		self.log.close()
-		return
+		return success
