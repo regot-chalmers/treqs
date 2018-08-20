@@ -16,11 +16,12 @@ def main(argv):
     sysReqPattern = 'SR_.*?\.md'
 
     recursive = False
+    verbose = False
         # argument options for this script. Only accepts the option d (root dir) and r (recursive)
     try:
-        opts, args = getopt.getopt(argv[1:], "hu:s:t:r", ["help","usdir=","sysreqdir=","tcdir=","uspattern=","srpattern=","tcpattern="])
+        opts, args = getopt.getopt(argv[1:], "hu:s:t:rv", ["help","usdir=","sysreqdir=","tcdir=","uspattern=","srpattern=","tcpattern=","verbose"])
     except getopt.GetoptError:
-        print('Usage: ' + argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> -r')
+        print('Usage: ' + argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> [-r] [-v]')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-u", "--usdir"):
@@ -37,8 +38,10 @@ def main(argv):
             tcPattern = os.path.normpath(arg)
         elif opt in ("-r"):
             recursive = True
+        elif opt in ("-v", "--verbose"):
+            verbose = True
         elif opt in ("-h", "--help"):
-            print('Usage: ' + argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> [-r]')
+            print('Usage: ' + argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> [-r] [-v]')
             sys.exit(2)
 
     try:
@@ -76,6 +79,9 @@ def main(argv):
     #Calculate which Req IDs are traced to but do not exist
     nonExistingReqTC = tracedReqsFromTests.difference(existingReqs)
 
+    #Get all test ids
+    existingTCs = tcProcessor.testIDSet
+    
     #Get all duplicate IDs
     duplicateUS = usProcessor.duplicateStorySet
     duplicateTC = tcProcessor.duplicateIDSet
@@ -93,6 +99,26 @@ def main(argv):
     log = open(filename,"w")
 
     log.write('# T-Reqs commit report #\n\n')
+    
+    #Verbose mode: Print all ids as well.
+    if verbose:
+        log.write('### All item ids (verbose mode) ###\n')
+        log.write('User stories:\n\n')
+        for currentID in existingStories:
+            log.write('* User Story ' + currentID + '\n')
+        
+        log.write('\n')
+        log.write('Requirements:\n\n')
+        for currentID in existingReqs:
+            log.write('* Requirement ' + currentID + '\n')
+            
+        log.write('\n')
+        log.write('Test cases:\n\n')
+        for currentID in existingTCs:
+            log.write('* Test Case ' + currentID + '\n')
+        
+        log.write('\n')
+
     log.write('### Duplicate IDs ###\n')
     log.write('The following duplicate User Story IDs exist:\n\n')
     for currentID in duplicateUS:
@@ -157,9 +183,15 @@ def main(argv):
     log.write('The following requirements are referenced by test cases, but do not exist:\n\n')
     for currentID in nonExistingReqTC:
         log.write('* Requirement ' + currentID + '\n')
-        
+     
     log.close()
-    
+         
+            
+    #If the verbose flag is used, print the log.
+    if verbose:
+        with open(filename, 'r') as f:
+            print(f.read())
+            
     #Return -1 if the validation has failed, and print the log to the console
     if not success:
         print('Validation failed with the following output:\n')
