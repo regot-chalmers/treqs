@@ -25,7 +25,7 @@ class TestSystem(unittest.TestCase):
         directory when treqs is run.
         """
         # Act
-        main('treqs -u . -s . -t .'.split())
+        main('treqs -u . -s . -t . -q'.split())
 
         # Assert
         self.assertTrue(os.path.isdir('logs'))
@@ -47,7 +47,7 @@ class TestSystem(unittest.TestCase):
             f.write('[requir' + 'ement id=REQtemp]')
 
         # Act
-        main('treqs -u . -s . -t .'.split())
+        main('treqs -u . -s . -t . -q'.split())
 
         # Assert
         for start_of_filename, artefact_name in [('TC', 'TCtemp'),
@@ -78,7 +78,7 @@ class TestSystem(unittest.TestCase):
             f.write('[requir' + 'ement id=REQtemp]')
 
         # Act
-        main(['treqs'])
+        main('treqs -q'.split())
 
         # Assert
         for start_of_filename, artefact_name in [('TC', 'TCtemp'),
@@ -101,7 +101,7 @@ class TestSystem(unittest.TestCase):
             f.write('[userstory id=UStemp]')
 
         # Act
-        main('treqs -u . -s . -t .'.split())
+        main('treqs -u . -s . -t . -q'.split())
 
         # Assert
         with _open_file_in_directory_starting_with('logs', 'Summary') as f:

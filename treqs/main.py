@@ -16,11 +16,12 @@ def main(argv):
     sysReqPattern = 'SR_.*?\.md'
 
     recursive = False
-        # argument options for this script. Only accepts the option d (root dir) and r (recursive)
+    quiet = False
+        # argument options for this script. 
     try:
-        opts, args = getopt.getopt(argv[1:], "hu:s:t:r", ["help","usdir=","sysreqdir=","tcdir=","uspattern=","srpattern=","tcpattern="])
+        opts, args = getopt.getopt(argv[1:], "hu:s:t:r:q", ["help","usdir=","sysreqdir=","tcdir=","uspattern=","srpattern=","tcpattern="])
     except getopt.GetoptError:
-        print('Usage: ' + argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> -r')
+        print('Usage: ' + argv[0] + ' [-u <user story directory>] [-s <system requirements directory>] [-t <test case directory>] [-r] [-q]')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-u", "--usdir"):
@@ -37,6 +38,8 @@ def main(argv):
             tcPattern = os.path.normpath(arg)
         elif opt in ("-r"):
             recursive = True
+        elif opt in ("-q"):
+            quiet = True
         elif opt in ("-h", "--help"):
             print('Usage: ' + argv[0] + ' -u <user story directory> -s <system requirements directory> -t <test case directory> [-r]')
             sys.exit(2)
@@ -161,7 +164,7 @@ def main(argv):
     log.close()
     
     #Return -1 if the validation has failed, and print the log to the console
-    if not success:
+    if not success and not quiet:
         print('Validation failed with the following output:\n')
         with open(filename, 'r') as f:
             print(f.read())
