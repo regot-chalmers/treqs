@@ -59,7 +59,7 @@ class TestSystem(unittest.TestCase):
 
     def test_default_artefact_locations(self):
         """
-        [testcase id=TC6 story=US1c req=REQ12]
+        [testcase id=TC7 story=US1c req=REQ12]
 
         Ensure that, if no arguments are specified, treqs
         looks in the default locations for artefacts 
