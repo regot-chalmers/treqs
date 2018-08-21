@@ -120,7 +120,7 @@ The formats are here mainly chosen for convenience, but can easily be adapted to
 ## Usage
 
     Usage:
-      treqs [-u DIR] [-s DIR] [-t DIR] [--uspattern PATTERN] [--srpattern PATTERN] [--tcpattern PATTERN] [-r]
+      treqs [-u DIR] [-s DIR] [-t DIR] [--uspattern PATTERN] [--srpattern PATTERN] [--tcpattern PATTERN] [-r] [-q]
 
     Options:
       -u           directory to search for user stories [default: requirements/]
@@ -130,6 +130,7 @@ The formats are here mainly chosen for convenience, but can easily be adapted to
       --srpattern  pattern to match system requirement file names [default: SR_.*?\.md]
       --tcpattern  pattern to match test file names [default: TC_.*?(\.py|\..md)]
       -r           traverse directories recursively
+      -q           quiet; suppress console output
 
 The treqs command produces a markdown log file (Summary_\*) in the logs folder (scripts/logs). 
 
