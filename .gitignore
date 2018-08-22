@@ -3,6 +3,12 @@ logs/
 # Python
 __pycache__/
 *egg-info/
+**/*.pyc
 
 # PyCharm
 .idea/
+
+
+# Mac File system
+.DS_Store
+
