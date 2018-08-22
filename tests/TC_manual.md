@@ -1,6 +1,6 @@
 # Manual test cases 
 
-## [testcase id=TC2 story=US1 req=REQ6]
+## [testcase id=TC2 story=US6 req=REQ6]
 
 Purpose: Test that a user story can be created in GitHub
 

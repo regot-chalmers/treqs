@@ -39,7 +39,7 @@ Treqs shall list all test cases documented in a given folder.
 
 ## Workflow
 
-### [requirement id=REQ6 story=US1d]
+### [requirement id=REQ6 story=US6]
 
 It shall be possible to create user stories in GitHub.
 
