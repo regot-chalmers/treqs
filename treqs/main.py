@@ -12,7 +12,7 @@ def main(argv):
 
     #Default patterns for respective filenames (user stories, test cases, system requirements). Can be provided as function arguments.
     usPattern = 'US_.*?\.md'
-    tcPattern = 'TC_.*?(\.py|\.md)'
+    tcPattern = 'TC_.*?(\.py|\.md)$'
     sysReqPattern = 'SR_.*?\.md'
 
     recursive = False
