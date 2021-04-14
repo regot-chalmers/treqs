@@ -1,3 +1,12 @@
+# DEPRECATION WARNING
+
+TReqs has moved to its [new public home at gitlab](https://gitlab.com/treqs-on-git/treqs-ng). 
+
+We keep the code in this repository unchanged, since it is referenced in our publications. Based on our learnings, we have however redisigned the command line interface and started to build a much more flexible tool.
+
+
+
+
 # T-Reqs: Tool Support for Managing Requirements in Large-Scale Agile System Development
 
 Requirements engineering is crucial to support agile development of large systems with long lifetimes. 
